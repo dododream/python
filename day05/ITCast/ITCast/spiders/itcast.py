@@ -29,10 +29,11 @@ class ITCastSpider(scrapy.Spider):
         #yield scrapy.Request()
 
 
+
 # engine.py
 
 # response = downloader()
-# for request_or_item in spider.parse(response):
+#for request_or_item in spider.parse(response):
 #     if isinstance(request_or_item, scrapy.Item):
 #         pipeline.process_item(request_or_item)
 
