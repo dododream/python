@@ -29,6 +29,32 @@ LOG_LEVEL = "DEBUG"
 #LOG_FILE = 'tencent.log'
 
 
+
+
+# 1. 表示使用scrapy_redis提供的去重组件（在redis数据库里去重）
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# 2. 表示使用scrapy_redis提供的调度器组件（在redis数据库里存储请求)
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+# 3. 表示程序可以中途暂停，但不清除redis的数据（断点续爬）
+SCHEDULER_PERSIST = True
+
+# 用的是ZSET
+#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderPriorityQueue"
+# FIFO
+# SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"
+# LIFO
+#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderStack"
+
+ITEM_PIPELINES = {
+    # 4. 表示使用scrapy_redis提供的管道类，item数据直接保存在redis中（放到最后一步）
+    'scrapy_redis.pipelines.RedisPipeline': 900,
+}
+
+# 5. 表示指定存储数据的redis数据库ip和端口号（默认是本机）
+REDIS_HOST = "192.168.28.65"
+REDIS_PORT = 6379
+
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -74,9 +100,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'Tencent.pipelines.TencentPipeline': 300,
-}
+# ITEM_PIPELINES = {
+#    'Tencent.pipelines.TencentPipeline': 300,
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
